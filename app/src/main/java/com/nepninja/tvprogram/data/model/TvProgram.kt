@@ -20,7 +20,7 @@ data class Programme(
     val title: String?,
     val subTitle: String?,
     val description: String?,
-    val category: List<String>,
+    val category: String?,
     val src: String?
 ) : Parcelable
 

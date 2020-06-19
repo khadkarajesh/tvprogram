@@ -5,16 +5,16 @@
 
         <variable
             name="viewModel"
-            type="com.nepninja.tvprogram.main.MainViewModel" />
+            type="com.nepninja.tvprogram.deatil.DetailViewModel" />
     </data>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_channels"
+        android:id="@+id/rv_programmes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
         android:clipToPadding="false"
-        android:liveData="@{viewModel.tvProgrammes}"
+        android:paddingBottom="16dp"
+        android:liveData="@{viewModel.programmes}"
         android:paddingLeft="8dp"
         android:paddingRight="8dp" />
 </layout>

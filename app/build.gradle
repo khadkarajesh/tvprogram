@@ -67,7 +67,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation 'com.github.markomilos:paginate:0.5.1'
 
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation "io.coil-kt:coil:0.11.0"
 
     implementation "com.google.android.material:material:$materialVersion"
 

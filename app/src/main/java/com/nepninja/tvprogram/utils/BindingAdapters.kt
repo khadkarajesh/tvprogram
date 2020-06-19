@@ -5,8 +5,8 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
 import com.nepninja.tvprogram.base.BaseRecyclerViewAdapter
-import com.squareup.picasso.Picasso
 
 
 object BindingAdapters {
@@ -51,7 +51,7 @@ object BindingAdapters {
     @JvmStatic
     fun loadImage(view: ImageView, imageUrl: String?) {
         if (!imageUrl.isNullOrEmpty()) {
-            Picasso.get().load(imageUrl).into(view)
+            view.load(imageUrl)
         }
     }
 }

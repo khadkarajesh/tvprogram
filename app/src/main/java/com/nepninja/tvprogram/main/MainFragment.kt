@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.nepninja.tvprogram.R
 import com.nepninja.tvprogram.base.BaseFragment
+import com.nepninja.tvprogram.base.NavigationCommand
 import com.nepninja.tvprogram.databinding.FragmentMainBinding
 import com.nepninja.tvprogram.utils.setup
 import com.paginate.Paginate
@@ -36,6 +37,11 @@ class MainFragment : BaseFragment(), Paginate.Callbacks {
 
     private fun setupRecyclerView() {
         val adapter = TvProgramListAdapter {
+            _viewModel.navigationCommand.postValue(
+                NavigationCommand.To(
+                    MainFragmentDirections.actionMainFragmentToDetailFragment(it)
+                )
+            )
         }
         val layoutManager = GridLayoutManager(activity, 3)
         binding.rvChannels.addItemDecoration(ItemOffsetDecoration(resources.getDimensionPixelSize(R.dimen.grid_item_spacing)))

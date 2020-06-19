@@ -2,6 +2,7 @@ package com.nepninja.tvprogram
 
 import android.app.Application
 import com.nepninja.tvprogram.data.remote.Api
+import com.nepninja.tvprogram.deatil.DetailViewModel
 import com.nepninja.tvprogram.main.MainViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -16,6 +17,9 @@ class App : Application() {
         val appModule = module {
             viewModel {
                 MainViewModel(get(), get())
+            }
+            viewModel {
+                DetailViewModel(get())
             }
             single { Api.retrofitService }
         }

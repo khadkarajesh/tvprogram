@@ -35,6 +35,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@{item.channel.name}"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:padding="8dp"
                 android:textColor="@android:color/white" />
         </LinearLayout>
