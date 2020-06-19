@@ -52,6 +52,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$archLifecycleVersion"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+    implementation "androidx.paging:paging-runtime:$pagingVersion"
 
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
@@ -64,6 +65,7 @@ dependencies {
 
 
     implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation 'com.github.markomilos:paginate:0.5.1'
 
     implementation 'com.squareup.picasso:picasso:2.71828'
 

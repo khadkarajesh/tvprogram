@@ -1,11 +1,12 @@
 package com.nepninja.tvprogram.utils
 
 import android.view.View
+import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.nepninja.tvprogram.base.BaseRecyclerViewAdapter
-
+import com.squareup.picasso.Picasso
 
 
 object BindingAdapters {
@@ -43,6 +44,14 @@ object BindingAdapters {
                 if (view.visibility == View.VISIBLE)
                     view.fadeOut()
             }
+        }
+    }
+
+    @BindingAdapter("android:src")
+    @JvmStatic
+    fun loadImage(view: ImageView, imageUrl: String?) {
+        if (!imageUrl.isNullOrEmpty()) {
+            Picasso.get().load(imageUrl).into(view)
         }
     }
 }

@@ -7,6 +7,7 @@ import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 
 fun getClient(): OkHttpClient {
@@ -29,7 +30,10 @@ private val retrofit = Retrofit
 
 interface TvProgramService {
     @GET("epg.php")
-    fun getProgrammesAsync(): Deferred<ResponseBody>
+    fun getProgrammesAsync(
+        @Query("fromID") from: Int,
+        @Query("toID") to: Int
+    ): Deferred<ResponseBody>
 }
 
 object Api {

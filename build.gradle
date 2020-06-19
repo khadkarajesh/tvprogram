@@ -24,6 +24,8 @@ ext {
     androidXAnnotations = '1.0.1'
     stethoVersion = '1.5.1'
     retrofitVersion = '2.9.0'
+    pagingVersion = "2.1.2"
+
 }
 
 allprojects {

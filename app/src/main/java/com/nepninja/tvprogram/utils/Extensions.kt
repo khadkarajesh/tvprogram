@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nepninja.tvprogram.base.BaseRecyclerViewAdapter
 
@@ -17,7 +16,6 @@ fun <T> RecyclerView.setup(
     adapter: BaseRecyclerViewAdapter<T>
 ) {
     this.apply {
-        layoutManager = LinearLayoutManager(this.context)
         this.adapter = adapter
     }
 }

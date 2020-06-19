@@ -1,12 +1,17 @@
 package com.nepninja.tvprogram.data.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+@Parcelize
+data class TvProgram(val channel: Channel, val programmes: List<Programme>) : Parcelable
 
-data class TvProgram(val channel: Channel, val programmes: List<Programme>)
+@Parcelize
+data class Channel(val id: String?, val idNo: String?, val name: String?, val src: String?) :
+    Parcelable
 
-data class Channel(val id: String?, val idNo: String?, val name: String?, val src: String?)
-
+@Parcelize
 data class Programme(
     val startDate: Date?,
     val stopDate: Date?,
@@ -17,5 +22,5 @@ data class Programme(
     val description: String?,
     val category: List<String>,
     val src: String?
-)
+) : Parcelable
 
