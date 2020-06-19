@@ -39,7 +39,7 @@ object TvProgrammeParser {
                     val id = element.attributes.getNamedItem("id").nodeValue
                     val idNo = element.attributes.getNamedItem("idNo").nodeValue
                     val displayName =
-                        element.getElementsByTagName("display-name").item(0).nodeValue
+                        element.getElementsByTagName("display-name").item(0)?.childNodes?.item(0)?.nodeValue
                     val icon = element.getElementsByTagName("icon")
                         .item(0).attributes.getNamedItem("src").nodeValue
                     channels.add(Channel(id = id, idNo = idNo, name = displayName, src = icon))

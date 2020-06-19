@@ -13,5 +13,7 @@
         android:id="@+id/rv_channels"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:liveData="@{viewModel.tvProgrammes}" />
 </layout>
