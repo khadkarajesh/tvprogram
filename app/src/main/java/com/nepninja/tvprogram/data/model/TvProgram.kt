@@ -1,37 +1,21 @@
 package com.nepninja.tvprogram.data.model
 
-import com.tickaroo.tikxml.annotation.Attribute
-import com.tickaroo.tikxml.annotation.Element
-import com.tickaroo.tikxml.annotation.PropertyElement
-import com.tickaroo.tikxml.annotation.Xml
-
-@Xml
-data class Tv(@Element val channels: List<Channel>, @Element val programmes: List<Programme>)
+import java.util.*
 
 
-@Xml
-data class Channel(
-    @Attribute val idNo: String,
-    @Attribute val id: String,
-    @PropertyElement(name = "display-name") val name: String,
-    @Element(name = "src") val logo: Icon
-)
+data class TvProgram(val channel: Channel, val programmes: List<Programme>)
 
-@Xml
-data class Icon(
-    @Attribute(name = "src") val logo: String
-)
+data class Channel(val id: String?, val idNo: String?, val name: String?, val src: String?)
 
-@Xml
 data class Programme(
-    @Attribute(name = "start") val startTime: String,
-    @Attribute(name = "end") val endTime: String,
-    @Attribute(name = "channel") val channelId: String,
-    @Attribute(name = "idNo") val idNo: String,
-    @PropertyElement val title: String,
-    @PropertyElement(name = "sub-title") val subTitle: String,
-    @Attribute val category: String,
-    @PropertyElement(name = "desc") val description: String,
-    @Element(name = "src") val logo: Icon
+    val startDate: Date?,
+    val stopDate: Date?,
+    val channelId: String?,
+    val idNo: String,
+    val title: String?,
+    val subTitle: String?,
+    val description: String?,
+    val category: List<String>,
+    val src: String?
 )
 

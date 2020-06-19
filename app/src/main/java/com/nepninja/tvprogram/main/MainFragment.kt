@@ -26,4 +26,9 @@ class MainFragment : BaseFragment() {
         return binding.root
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        _viewModel.getChannels()
+    }
+
 }
