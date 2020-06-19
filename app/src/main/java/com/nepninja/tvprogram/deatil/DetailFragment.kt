@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.nepninja.tvprogram.R
 import com.nepninja.tvprogram.base.BaseFragment
+import com.nepninja.tvprogram.base.NavigationCommand
 import com.nepninja.tvprogram.databinding.FragmentDetailBinding
 import com.nepninja.tvprogram.main.ItemOffsetDecoration
+import com.nepninja.tvprogram.main.MainFragmentDirections
 import com.nepninja.tvprogram.utils.setup
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -34,6 +36,11 @@ class DetailFragment : BaseFragment() {
 
     private fun setupRecyclerView() {
         val adapter = ProgrammeListAdapter {
+            _viewModel.navigationCommand.postValue(
+                NavigationCommand.To(
+                    DetailFragmentDirections.actionDetailFragmentToProgramDetailFragment(it)
+                )
+            )
         }
         val layoutManager = GridLayoutManager(activity, 2)
         binding.rvProgrammes.addItemDecoration(

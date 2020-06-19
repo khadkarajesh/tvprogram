@@ -15,11 +15,11 @@ object DateUtils {
         }
     }
 
+    @JvmStatic
     fun dateToStr(date: Date): String? {
         return try {
-            val dateFormat = SimpleDateFormat("yyyyMMddHHmmssSSSZ")
-
-            dateFormat.format(date)
+            val dateFormat = SimpleDateFormat("EEE, d MMM hh:mm  aa")
+            return dateFormat.format(date)
         } catch (e: ParseException) {
             null
         }

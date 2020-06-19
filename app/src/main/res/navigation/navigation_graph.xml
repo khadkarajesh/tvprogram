@@ -20,6 +20,17 @@
         <argument
             android:name="tvprogram"
             app:argType="com.nepninja.tvprogram.data.model.TvProgram" />
+        <action
+            android:id="@+id/action_detailFragment_to_programDetailFragment"
+            app:destination="@id/programDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/programDetailFragment"
+        android:name="com.nepninja.tvprogram.program.ProgramDetailFragment"
+        android:label="ProgramDetailFragment" >
+        <argument
+            android:name="program"
+            app:argType="com.nepninja.tvprogram.data.model.Programme" />
     </fragment>
 
 </navigation>
