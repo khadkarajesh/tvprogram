@@ -1,6 +1,8 @@
 package com.nepninja.tvprogram
 
 object Constants {
+    const val API_URL = "https://veusat-epg.azurewebsites.net/"
+
     const val CHANNEL = "channel"
     const val PROGRAMME = "programme"
 

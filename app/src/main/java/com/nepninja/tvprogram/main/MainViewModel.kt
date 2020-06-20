@@ -11,25 +11,17 @@ import kotlinx.coroutines.launch
 
 
 class MainViewModel(
-    private val app: Application,
+    app: Application,
     private val api: TvProgramService
 ) : BaseViewModel(app) {
     var tvProgrammes: MutableLiveData<List<TvProgram>> = MutableLiveData()
     var from: Int = 1
     var to: Int = 20
-    var initialLoad: Boolean = true
-    var loading: MutableLiveData<Boolean> = MutableLiveData()
-
 
     fun getChannels() {
         showLoading.postValue(true)
         viewModelScope.launch {
             try {
-                if (!initialLoad) {
-                    from += 1
-                    from *= 15
-                    to = from + 15
-                }
                 val asyncProgrammes = api.getProgrammesAsync(from, to)
                 val responseBody = asyncProgrammes.await()
                 val data = TvProgrammeParser.getTvProgrammes(responseBody.byteStream())

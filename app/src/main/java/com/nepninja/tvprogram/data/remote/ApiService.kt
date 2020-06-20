@@ -1,6 +1,7 @@
 package com.nepninja.tvprogram.data.remote
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.nepninja.tvprogram.Constants.API_URL
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
@@ -25,7 +26,7 @@ private val retrofit = Retrofit
     .Builder()
     .client(getClient())
     .addCallAdapterFactory(CoroutineCallAdapterFactory())
-    .baseUrl("https://veusat-epg.azurewebsites.net/")
+    .baseUrl(API_URL)
     .build()
 
 interface TvProgramService {
