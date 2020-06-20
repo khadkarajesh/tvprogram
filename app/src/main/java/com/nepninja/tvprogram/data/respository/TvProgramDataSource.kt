@@ -1,10 +1,10 @@
 package com.nepninja.tvprogram.data.respository
 
-import android.util.Log
 import androidx.paging.PagingSource
 import com.nepninja.tvprogram.data.model.TvProgram
 import com.nepninja.tvprogram.data.remote.TvProgramService
 import com.nepninja.tvprogram.utils.TvProgrammeParser
+import org.xml.sax.SAXParseException
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -18,7 +18,6 @@ class TvProgramDataSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TvProgram> {
         val position = params.key ?: STARTING_POSITION
         return try {
-            Log.d(TAG, "$position  ${params.loadSize + position}")
             val response = service.getProgrammesAsync(position, params.loadSize + position).await()
             val tvPrograms = TvProgrammeParser.getTvProgrammes(response.byteStream())
             LoadResult.Page(
@@ -29,6 +28,8 @@ class TvProgramDataSource(
         } catch (exception: IOException) {
             LoadResult.Error(exception)
         } catch (exception: HttpException) {
+            LoadResult.Error(exception)
+        } catch (exception: SAXParseException) {
             LoadResult.Error(exception)
         }
     }
