@@ -23,25 +23,26 @@ class MainViewModel(
 
 
     fun getChannels() {
-        loading.postValue(true)
+        showLoading.postValue(true)
         viewModelScope.launch {
             try {
-
                 if (!initialLoad) {
                     from += 1
                     from *= 15
                     to = from + 15
                 }
-                Log.d("page", "$from - $to")
                 val asyncProgrammes = api.getProgrammesAsync(from, to)
                 val responseBody = asyncProgrammes.await()
-                loading.postValue(false)
                 val data = TvProgrammeParser.getTvProgrammes(responseBody.byteStream())
                 if (data.isNotEmpty()) {
                     tvProgrammes.postValue(data)
+                } else {
+                    showNoData.postValue(true)
                 }
             } catch (e: Exception) {
-                loading.postValue(false)
+                showSnackBar.postValue(e.localizedMessage)
+            } finally {
+                showLoading.postValue(false)
             }
         }
     }
