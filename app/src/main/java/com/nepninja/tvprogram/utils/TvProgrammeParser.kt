@@ -1,6 +1,7 @@
 package com.nepninja.tvprogram.utils
 
 import android.util.Log
+import com.nepninja.tvprogram.Constants
 import com.nepninja.tvprogram.data.model.Channel
 import com.nepninja.tvprogram.data.model.Programme
 import com.nepninja.tvprogram.data.model.TvProgram
@@ -19,8 +20,8 @@ object TvProgrammeParser {
         val docBuilder = builderFactory.newDocumentBuilder()
         val doc = docBuilder.parse(inputStream)
 
-        val channelNodes: NodeList = doc.getElementsByTagName("channel")
-        val programmeNodes: NodeList = doc.getElementsByTagName("programme")
+        val channelNodes: NodeList = doc.getElementsByTagName(Constants.CHANNEL)
+        val programmeNodes: NodeList = doc.getElementsByTagName(Constants.PROGRAMME)
 
         val channels = getChannels(channelNodes)
         val programmes = getProgrammes(programmeNodes)
@@ -36,13 +37,13 @@ object TvProgrammeParser {
             for (i in 0 until channelNodes.length) {
                 if (channelNodes.item(0).nodeType == Node.ELEMENT_NODE) {
                     val element = channelNodes.item(i) as Element
-                    val id = element.attributes.getNamedItem("id").nodeValue
-                    val idNo = element.attributes.getNamedItem("idNo").nodeValue
+                    val id = element.attributes.getNamedItem(Constants.ID).nodeValue
+                    val idNo = element.attributes.getNamedItem(Constants.ID_NUMBER).nodeValue
                     val displayName =
-                        element.getElementsByTagName("display-name")
+                        element.getElementsByTagName(Constants.DISPLAY_NAME)
                             .item(0)?.childNodes?.item(0)?.nodeValue
-                    val icon = element.getElementsByTagName("icon")
-                        .item(0).attributes.getNamedItem("src").nodeValue
+                    val icon = element.getElementsByTagName(Constants.ICON)
+                        .item(0).attributes.getNamedItem(Constants.SRC).nodeValue
                     channels.add(Channel(id = id, idNo = idNo, name = displayName, src = icon))
                 }
             }
@@ -60,23 +61,26 @@ object TvProgrammeParser {
         try {
             for (i in 0 until programmeNodes.length) {
                 val element = programmeNodes.item(i) as Element
-                val id = element.attributes.getNamedItem("idNo").nodeValue
-                val channelId = element.attributes.getNamedItem("channel").nodeValue
+                val id = element.attributes.getNamedItem(Constants.ID_NUMBER).nodeValue
+                val channelId = element.attributes.getNamedItem(Constants.CHANNEL).nodeValue
                 val startDate =
-                    DateUtils.strToDate(element.attributes.getNamedItem("start").nodeValue)
+                    DateUtils.strToDate(element.attributes.getNamedItem(Constants.START_TIME).nodeValue)
                 val stopDate =
-                    DateUtils.strToDate(element.attributes.getNamedItem("stop").nodeValue)
+                    DateUtils.strToDate(element.attributes.getNamedItem(Constants.STOP_TIME).nodeValue)
                 val title =
-                    element.getElementsByTagName("title").item(0)?.childNodes?.item(0)?.nodeValue
+                    element.getElementsByTagName(Constants.TITLE)
+                        .item(0)?.childNodes?.item(0)?.nodeValue
                 val subTitle =
-                    element.getElementsByTagName("sub-title")
+                    element.getElementsByTagName(Constants.SUBTITLE)
                         .item(0)?.childNodes?.item(0)?.nodeValue
                 val category =
-                    element.getElementsByTagName("category").item(0)?.childNodes?.item(0)?.nodeValue
+                    element.getElementsByTagName(Constants.CATEGORY)
+                        .item(0)?.childNodes?.item(0)?.nodeValue
                 val desc =
-                    element.getElementsByTagName("desc").item(0)?.childNodes?.item(0)?.nodeValue
-                val icon = element.getElementsByTagName("icon")
-                    .item(0).attributes.getNamedItem("src").nodeValue
+                    element.getElementsByTagName(Constants.DESCRIPTION)
+                        .item(0)?.childNodes?.item(0)?.nodeValue
+                val icon = element.getElementsByTagName(Constants.ICON)
+                    .item(0).attributes.getNamedItem(Constants.SRC).nodeValue
                 programmes.add(
                     Programme(
                         startDate = startDate,

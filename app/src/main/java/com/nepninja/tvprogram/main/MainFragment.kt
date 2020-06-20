@@ -10,11 +10,10 @@ import com.nepninja.tvprogram.base.BaseFragment
 import com.nepninja.tvprogram.base.NavigationCommand
 import com.nepninja.tvprogram.databinding.FragmentMainBinding
 import com.nepninja.tvprogram.utils.setup
-import com.paginate.Paginate
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class MainFragment : BaseFragment(), Paginate.Callbacks {
+class MainFragment : BaseFragment() {
     override val _viewModel: MainViewModel by viewModel()
     private lateinit var binding: FragmentMainBinding
 
@@ -64,17 +63,5 @@ class MainFragment : BaseFragment(), Paginate.Callbacks {
             R.id.about -> findNavController().navigate(MainFragmentDirections.actionMainFragmentToAboutUsFragment())
         }
         return true
-    }
-
-    override fun onLoadMore() {
-        _viewModel.getChannels()
-    }
-
-    override fun isLoading(): Boolean {
-        return _viewModel.loading.value!!
-    }
-
-    override fun hasLoadedAllItems(): Boolean {
-        return _viewModel.tvProgrammes.value!!.size > 100
     }
 }
