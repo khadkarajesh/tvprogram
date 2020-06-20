@@ -22,6 +22,7 @@ class HelpFaqFragment : BaseFragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_help_faq, container, false)
         binding.viewModel = _viewModel
         binding.lifecycleOwner = this
+
         return binding.root
     }
 

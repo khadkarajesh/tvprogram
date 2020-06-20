@@ -6,9 +6,11 @@ import java.util.*
 
 
 object DateUtils {
+    private const val APP_DATE_FORMAT = "yyyyMMddHHmmss"
+    private const val APP_DATE_DISPLAY_FORMAT = "EEE, d MMM hh:mm  aa"
     fun strToDate(date: String): Date? {
         return try {
-            val format = SimpleDateFormat("yyyyMMddHHmmss")
+            val format = SimpleDateFormat(APP_DATE_FORMAT)
             format.parse(date)
         } catch (e: ParseException) {
             null
@@ -16,12 +18,12 @@ object DateUtils {
     }
 
     @JvmStatic
-    fun dateToStr(date: Date): String? {
+    fun dateToStr(date: Date): String {
         return try {
-            val dateFormat = SimpleDateFormat("EEE, d MMM hh:mm  aa")
+            val dateFormat = SimpleDateFormat(APP_DATE_DISPLAY_FORMAT)
             return dateFormat.format(date)
         } catch (e: ParseException) {
-            null
+            ""
         }
     }
 }

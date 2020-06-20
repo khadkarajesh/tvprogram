@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.nepninja.tvprogram.R
 import com.nepninja.tvprogram.databinding.FragmentProgramDetailBinding
+import com.nepninja.tvprogram.utils.setTitle
 
 
 class ProgramDetailFragment : Fragment() {
@@ -16,7 +17,12 @@ class ProgramDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentProgramDetailBinding.inflate(inflater)
-        binding.program = ProgramDetailFragmentArgs.fromBundle(arguments!!).program
+
+        val program = ProgramDetailFragmentArgs.fromBundle(arguments!!).program
+        binding.program = program
+
+        program.title?.let { setTitle(it) }
+
         return binding.root
     }
 }

@@ -11,6 +11,8 @@ import com.nepninja.tvprogram.base.NavigationCommand
 import com.nepninja.tvprogram.databinding.FragmentDetailBinding
 import com.nepninja.tvprogram.main.ItemOffsetDecoration
 import com.nepninja.tvprogram.main.MainFragmentDirections
+import com.nepninja.tvprogram.utils.setDisplayHomeAsUpEnabled
+import com.nepninja.tvprogram.utils.setTitle
 import com.nepninja.tvprogram.utils.setup
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -23,9 +25,14 @@ class DetailFragment : BaseFragment() {
     ): View? {
         binding = FragmentDetailBinding.inflate(inflater)
         val tvProgram = DetailFragmentArgs.fromBundle(arguments!!).tvprogram
+
+        tvProgram.channel.name?.let { setTitle(it) }
+
         binding.viewModel = _viewModel
         binding.lifecycleOwner = this
+
         _viewModel.programmes.value = tvProgram.programmes
+
         return binding.root
     }
 
@@ -51,7 +58,6 @@ class DetailFragment : BaseFragment() {
             )
         )
         binding.rvProgrammes.layoutManager = layoutManager
-        binding.rvProgrammes.hasFixedSize()
         binding.rvProgrammes.setup(adapter)
     }
 
