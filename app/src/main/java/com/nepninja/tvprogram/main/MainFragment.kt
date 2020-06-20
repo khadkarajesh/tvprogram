@@ -11,6 +11,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.nepninja.tvprogram.R
 import com.nepninja.tvprogram.base.BaseFragment
+import com.nepninja.tvprogram.base.NavigationCommand
 import com.nepninja.tvprogram.databinding.FragmentMainBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -20,7 +21,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainFragment : BaseFragment() {
     override val _viewModel: MainViewModel by viewModel()
     private lateinit var binding: FragmentMainBinding
-    private val adapter = TvProgramPageListAdapter()
+    private lateinit var adapter: TvProgramPageListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +38,14 @@ class MainFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        adapter = TvProgramPageListAdapter(callback = {
+            _viewModel.navigationCommand.postValue(
+                NavigationCommand.To(
+                    MainFragmentDirections.actionMainFragmentToDetailFragment(it)
+                )
+            )
+        })
 
         binding.rvChannels.layoutManager = GridLayoutManager(activity, 3)
         binding.rvChannels.addItemDecoration(ItemOffsetDecoration(resources.getDimensionPixelSize(R.dimen.grid_item_spacing)))

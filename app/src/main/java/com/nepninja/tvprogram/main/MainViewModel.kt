@@ -20,7 +20,7 @@ class MainViewModel(
 ) : BaseViewModel(app) {
     fun getChannels(): Flow<PagingData<TvProgram>> {
         return Pager(
-            config = PagingConfig(pageSize = 5, enablePlaceholders = true),
+            config = PagingConfig(pageSize = 10, enablePlaceholders = true, initialLoadSize = 15),
             pagingSourceFactory = { TvProgramDataSource(api) }
         ).flow.cachedIn(viewModelScope)
     }

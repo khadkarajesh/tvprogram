@@ -14,7 +14,7 @@ import com.nepninja.tvprogram.data.model.TvProgram
 import com.nepninja.tvprogram.databinding.ChannelItemBinding
 import com.nepninja.tvprogram.databinding.LoadStateFooterViewItemBinding
 
-class TvProgramPageListAdapter :
+class TvProgramPageListAdapter(private val callback: ((item: TvProgram) -> Unit)? = null) :
     PagingDataAdapter<TvProgram, TvProgramViewHolder>(DIFF_UTIL) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvProgramViewHolder {
         val binding: ChannelItemBinding = DataBindingUtil.inflate(
@@ -28,6 +28,9 @@ class TvProgramPageListAdapter :
 
     override fun onBindViewHolder(holder: TvProgramViewHolder, position: Int) {
         holder.binding.item = getItem(position)
+        holder.itemView.setOnClickListener {
+            getItem(position)?.let { it1 -> callback?.invoke(it1) }
+        }
     }
 
     companion object {
