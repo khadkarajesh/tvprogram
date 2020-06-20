@@ -3,11 +3,20 @@ package com.nepninja.tvprogram.main
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.nepninja.tvprogram.R
 import com.nepninja.tvprogram.base.BaseFragment
 import com.nepninja.tvprogram.base.NavigationCommand
+import com.nepninja.tvprogram.data.model.TvProgram
+import com.nepninja.tvprogram.data.respository.TvProgramDataSource
 import com.nepninja.tvprogram.databinding.FragmentMainBinding
 import com.nepninja.tvprogram.utils.setup
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -32,7 +41,23 @@ class MainFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setupRecyclerView()
+//        setupRecyclerView()
+        val adapter = TvProgramPageListAdapter(object : DiffUtil.ItemCallback<TvProgram>() {
+            override fun areItemsTheSame(oldItem: TvProgram, newItem: TvProgram): Boolean {
+                return oldItem.channel.id == newItem.channel.id
+            }
+
+            override fun areContentsTheSame(oldItem: TvProgram, newItem: TvProgram): Boolean {
+                return oldItem == newItem
+            }
+        })
+        binding.rvChannels.layoutManager = GridLayoutManager(activity, 3)
+        binding.rvChannels.addItemDecoration(ItemOffsetDecoration(resources.getDimensionPixelSize(R.dimen.grid_item_spacing)))
+        binding.rvChannels.adapter = adapter
+
+        _viewModel.tvProgrammesPageList.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
     }
 
     private fun setupRecyclerView() {
