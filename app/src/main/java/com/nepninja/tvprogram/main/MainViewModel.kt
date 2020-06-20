@@ -1,7 +1,6 @@
 package com.nepninja.tvprogram.main
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.nepninja.tvprogram.base.BaseViewModel
@@ -37,7 +36,7 @@ class MainViewModel(
                 if (data.isNotEmpty()) {
                     tvProgrammes.postValue(data)
                 } else {
-                    showNoData.postValue(true)
+                    showEmptyData()
                 }
             } catch (e: Exception) {
                 showSnackBar.postValue(e.localizedMessage)
@@ -45,5 +44,9 @@ class MainViewModel(
                 showLoading.postValue(false)
             }
         }
+    }
+
+    private fun showEmptyData() {
+        showNoData.postValue(tvProgrammes.value.isNullOrEmpty())
     }
 }
