@@ -3,6 +3,7 @@ package com.nepninja.tvprogram
 import android.app.Application
 import com.nepninja.tvprogram.data.remote.Api
 import com.nepninja.tvprogram.deatil.DetailViewModel
+import com.nepninja.tvprogram.help.FaqViewModel
 import com.nepninja.tvprogram.main.MainViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -21,6 +22,7 @@ class App : Application() {
             viewModel {
                 DetailViewModel(get())
             }
+            viewModel { FaqViewModel(get()) }
             single { Api.retrofitService }
         }
 
