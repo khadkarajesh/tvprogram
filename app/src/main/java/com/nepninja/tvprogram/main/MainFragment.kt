@@ -2,29 +2,25 @@ package com.nepninja.tvprogram.main
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.paging.DataSource
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
-import androidx.recyclerview.widget.DiffUtil
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.nepninja.tvprogram.R
 import com.nepninja.tvprogram.base.BaseFragment
-import com.nepninja.tvprogram.base.NavigationCommand
-import com.nepninja.tvprogram.data.model.TvProgram
-import com.nepninja.tvprogram.data.respository.TvProgramDataSource
 import com.nepninja.tvprogram.databinding.FragmentMainBinding
-import com.nepninja.tvprogram.utils.setup
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MainFragment : BaseFragment() {
     override val _viewModel: MainViewModel by viewModel()
     private lateinit var binding: FragmentMainBinding
+    private val adapter = TvProgramPageListAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,40 +37,40 @@ class MainFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        setupRecyclerView()
-        val adapter = TvProgramPageListAdapter(object : DiffUtil.ItemCallback<TvProgram>() {
-            override fun areItemsTheSame(oldItem: TvProgram, newItem: TvProgram): Boolean {
-                return oldItem.channel.id == newItem.channel.id
-            }
 
-            override fun areContentsTheSame(oldItem: TvProgram, newItem: TvProgram): Boolean {
-                return oldItem == newItem
-            }
-        })
         binding.rvChannels.layoutManager = GridLayoutManager(activity, 3)
         binding.rvChannels.addItemDecoration(ItemOffsetDecoration(resources.getDimensionPixelSize(R.dimen.grid_item_spacing)))
         binding.rvChannels.adapter = adapter
 
-        _viewModel.tvProgrammesPageList.observe(viewLifecycleOwner, Observer {
-            adapter.submitList(it)
-        })
-    }
+        binding.rvChannels.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = TvProgramLoadStateAdapter { adapter.retry() },
+            footer = TvProgramLoadStateAdapter { adapter.retry() }
+        )
 
-    private fun setupRecyclerView() {
-        val adapter = TvProgramListAdapter {
-            _viewModel.navigationCommand.postValue(
-                NavigationCommand.To(
-                    MainFragmentDirections.actionMainFragmentToDetailFragment(it)
-                )
-            )
+        adapter.addLoadStateListener { loadState ->
+            binding.rvChannels.isVisible = loadState.refresh is LoadState.NotLoading
+            binding.progressBar.isVisible = loadState.refresh is LoadState.Loading
+            binding.retryButton.isVisible = loadState.refresh is LoadState.Error
+            val errorState = loadState.source.append as? LoadState.Error
+                ?: loadState.source.prepend as? LoadState.Error
+                ?: loadState.append as? LoadState.Error
+                ?: loadState.prepend as? LoadState.Error
+            errorState?.let {
+                Toast.makeText(
+                    activity,
+                    "\uD83D\uDE28 Wooops ${it.error}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
-        val layoutManager = GridLayoutManager(activity, 3)
-        binding.rvChannels.addItemDecoration(ItemOffsetDecoration(resources.getDimensionPixelSize(R.dimen.grid_item_spacing)))
-        binding.rvChannels.layoutManager = layoutManager
-        binding.rvChannels.hasFixedSize()
-        binding.rvChannels.setup(adapter)
-        _viewModel.getChannels()
 
+        binding.retryButton.setOnClickListener { adapter.retry() }
+
+        lifecycleScope.launch {
+            _viewModel.getChannels().collectLatest {
+                adapter.submitData(it)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

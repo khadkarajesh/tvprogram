@@ -21,7 +21,7 @@ ext {
     navigationVersion = '2.2.0'
     androidXAnnotations = '1.0.1'
     retrofitVersion = '2.9.0'
-    pagingVersion = "2.1.2"
+    pagingVersion = "3.0.0-alpha01"
 }
 
 allprojects {
