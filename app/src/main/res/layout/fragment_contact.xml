@@ -10,10 +10,10 @@
 
     <TextView
         android:id="@+id/title_about_us"
-        style="@style/TextAppearance.AppCompat.Body1"
+        style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="who we are"
+        android:text="@string/txt_who_we_are"
         android:textStyle="bold"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +35,7 @@
 
     <TextView
         android:id="@+id/tv_tagline"
-        style="@style/TextAppearance.AppCompat.Body1"
+        style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
