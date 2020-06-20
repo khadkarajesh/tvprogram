@@ -1,10 +1,9 @@
 package com.nepninja.tvprogram.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.nepninja.tvprogram.R
 import com.nepninja.tvprogram.base.BaseFragment
@@ -26,6 +25,8 @@ class MainFragment : BaseFragment(), Paginate.Callbacks {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
         binding.viewModel = _viewModel
         binding.lifecycleOwner = this
+
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -50,6 +51,19 @@ class MainFragment : BaseFragment(), Paginate.Callbacks {
         binding.rvChannels.setup(adapter)
         _viewModel.getChannels()
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_overflow_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.help_faq -> findNavController().navigate(MainFragmentDirections.actionMainFragmentToHelpFaqFragment())
+            R.id.about -> findNavController().navigate(MainFragmentDirections.actionMainFragmentToAboutUsFragment())
+        }
+        return true
     }
 
     override fun onLoadMore() {
