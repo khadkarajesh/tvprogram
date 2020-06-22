@@ -5,6 +5,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
@@ -22,6 +23,7 @@ class MainFragment : BaseFragment() {
     override val _viewModel: MainViewModel by viewModel()
     private lateinit var binding: FragmentMainBinding
     private lateinit var adapter: TvProgramPageListAdapter
+    private var firstLoad: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,7 +76,6 @@ class MainFragment : BaseFragment() {
         }
 
         binding.retryButton.setOnClickListener { adapter.retry() }
-
         lifecycleScope.launch {
             _viewModel.getChannels().collectLatest {
                 adapter.submitData(it)
